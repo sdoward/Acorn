@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import com.nhaarman.acorn.OnBackPressListener
 import com.nhaarman.acorn.android.dispatching.AcornSceneDispatcher
+import com.nhaarman.acorn.android.dispatching.SceneDispatcher
 import com.nhaarman.acorn.android.internal.contentView
 import com.nhaarman.acorn.android.navigation.NavigatorProvider
 import com.nhaarman.acorn.android.presentation.ActivityControllerFactory
@@ -36,12 +37,8 @@ import com.nhaarman.acorn.state.NavigatorState
 import com.nhaarman.acorn.state.SavedState
 
 class AcornActivityDelegate private constructor(
-    private val activity: Activity,
-    private val root: ViewGroup,
-    private val navigatorProvider: NavigatorProvider,
-    private val viewControllerFactory: ViewControllerFactory,
-    private val activityControllerFactory: ActivityControllerFactory,
-    private val transitionFactory: TransitionFactory
+    private val sceneDispatcherFactory: (savedState: SavedState?) -> SceneDispatcher,
+    private val navigatorProvider: NavigatorProvider
 ) {
 
     private lateinit var navigator: Navigator
@@ -54,7 +51,7 @@ class AcornActivityDelegate private constructor(
         return navigator
     }
 
-    private lateinit var dispatcher: AcornSceneDispatcher
+    private lateinit var dispatcher: SceneDispatcher
 
     private var disposable: DisposableHandle? = null
         set(value) {
@@ -62,27 +59,8 @@ class AcornActivityDelegate private constructor(
             field = value
         }
 
-    @Suppress("UNCHECKED_CAST")
     fun onCreate(savedInstanceState: Bundle?) {
-        dispatcher = AcornSceneDispatcher.create(
-            activity,
-            root,
-            viewControllerFactory,
-            activityControllerFactory,
-            transitionFactory,
-            object : AcornSceneDispatcher.Callback {
-
-                override fun startForResult(intent: Intent) {
-                    activity.startActivityForResult(intent, 42)
-                }
-
-                override fun finished() {
-                    activity.finish()
-                }
-            },
-            savedInstanceState.sceneDispatcherState
-        )
-
+        dispatcher = sceneDispatcherFactory.invoke(savedInstanceState.sceneDispatcherState)
         navigator = navigatorProvider.navigatorFor(savedInstanceState.navigatorState)
         disposable = dispatcher.dispatchScenesFor(navigator)
     }
@@ -142,13 +120,37 @@ class AcornActivityDelegate private constructor(
             activityControllerFactory: ActivityControllerFactory,
             transitionFactory: TransitionFactory = DefaultTransitionFactory(viewControllerFactory)
         ): AcornActivityDelegate {
+            return AcornActivityDelegate.from(
+                { savedState: SavedState? ->
+                    AcornSceneDispatcher.create(
+                        activity,
+                        root,
+                        viewControllerFactory,
+                        activityControllerFactory,
+                        transitionFactory,
+                        object : AcornSceneDispatcher.Callback {
+                            override fun startForResult(intent: Intent) {
+                                activity.startActivityForResult(intent, 42)
+                            }
+
+                            override fun finished() {
+                                activity.finish()
+                            }
+                        },
+                        savedState
+                    )
+                },
+                navigatorProvider
+            )
+        }
+
+        fun from(
+            sceneDispatcherFactory: (savedState: SavedState?) -> SceneDispatcher,
+            navigatorProvider: NavigatorProvider
+        ): AcornActivityDelegate {
             return AcornActivityDelegate(
-                activity,
-                root,
-                navigatorProvider,
-                viewControllerFactory,
-                activityControllerFactory,
-                transitionFactory
+                sceneDispatcherFactory,
+                navigatorProvider
             )
         }
 

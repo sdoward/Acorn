@@ -14,15 +14,10 @@
  *    limitations under the License.
  */
 
-package com.nhaarman.acorn.navigation
+package com.nhaarman.acorn.android.experimental
 
-import com.nhaarman.acorn.state.NavigatorState
-
-/**
- * Indicates that implementers can have their instance state saved.
- */
-interface SavableNavigator : Navigator {
-
-    /** Save instance state. */
-    fun saveInstanceState(): NavigatorState
-}
+// TODO: docs
+@Experimental
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.BINARY)
+annotation class ExperimentalAcornEvents

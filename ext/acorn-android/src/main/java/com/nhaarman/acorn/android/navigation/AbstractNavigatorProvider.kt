@@ -46,6 +46,10 @@ abstract class AbstractNavigatorProvider<N : Navigator> : NavigatorProvider {
         return result.also { this.navigator = it }
     }
 
+    override fun newInstance(savedState: NavigatorState?): Navigator {
+        return createNavigatorInternal(savedState)
+    }
+
     private fun createNavigatorInternal(savedState: NavigatorState?): N {
         if (savedState == null) return createNavigator(null)
 
@@ -60,7 +64,7 @@ abstract class AbstractNavigatorProvider<N : Navigator> : NavigatorProvider {
         return createNavigator(null)
     }
 
-    abstract fun createNavigator(savedState: NavigatorState?): N
+    protected abstract fun createNavigator(savedState: NavigatorState?): N
 
     override fun saveNavigatorState(): NavigatorState? {
         return navigatorState {

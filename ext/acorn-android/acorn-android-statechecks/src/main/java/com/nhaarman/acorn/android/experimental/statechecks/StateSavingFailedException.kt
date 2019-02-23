@@ -14,15 +14,12 @@
  *    limitations under the License.
  */
 
-package com.nhaarman.acorn.navigation
+package com.nhaarman.acorn.android.experimental.statechecks
 
-import com.nhaarman.acorn.state.NavigatorState
+internal class StateSavingFailedException(
+    cause: Throwable? = null
+) : Exception(cause) {
 
-/**
- * Indicates that implementers can have their instance state saved.
- */
-interface SavableNavigator : Navigator {
-
-    /** Save instance state. */
-    fun saveInstanceState(): NavigatorState
+    override val message: String?
+        get() = "Could not save instance state for Navigator (see cause below)."
 }

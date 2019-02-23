@@ -38,6 +38,8 @@ interface NavigatorProvider {
      */
     fun navigatorFor(savedState: NavigatorState?): Navigator
 
+    fun newInstance(savedState: NavigatorState?): Navigator
+
     /**
      * Returns the saved state for the [Navigator] as returned by [navigatorFor].
      * Implementations can add extra data to the resulting state to suit their
