@@ -1,0 +1,31 @@
+{
+  "ownKey": "home",
+  "ownPages": [
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "https://nhaarman.github.io/Acorn",
+        "fileName": "",
+        "extension": "html",
+        "usePrettyUrl": true,
+        "link": "https://nhaarman.github.io/Acorn"
+      },
+      "description": "",
+      "title": "Acorn",
+      "content": "<p>Acorn is a carefully designed library that brings true modularity to\nnavigation flow and allows you to have full control over your transition\nanimations.<\/p>\n<p>Acorn's main principles lie around two interfaces: The\n<a href=\"https://nhaarman.github.io/Acorn/com/nhaarman/acorn/presentation/Scene\">Scene<\/a> and the <a href=\"https://nhaarman.github.io/Acorn/com/nhaarman/acorn/navigation/Navigator\">Navigator<\/a>.\nThe Scene represents a screen in an application and can be regarded\nas a basic building block for the application flow.\nThe Navigator controls the application flow and determines which screen\nis presented to the user.<\/p>\n<p class=\"image-preview\"><img src=\"https://nhaarman.github.io/Acorn/media/class_diagram.png\" alt=\"\" /><\/p>\n<p>A Scene class can be viewed as the simplest form of what a screen can be.\nIt has a simple four-staged lifecycle and is immune to Activity changes,\nmeaning it will not get destroyed when the user rotates the device.\nViews get attached to Scenes when they become visible to the user, providing a\nclear boundary between the platform and any logic.<\/p>\n<p>The Navigator is completely free to choose how it is implemented.\nIt does not necessarily have to use a back-stack like structure to model the\napplication flow, but can use any data structure they like.\nIn fact, Navigators can be composed together to combine several sub-flows\ninto one major application flow.<\/p>\n<p>In Acorn, the Activity is regarded as a 'window' to the user.\nIts only responsibility is to react to screen changes and show the proper\nuser interface.\nThis decoupling of navigation and the user interface results in an excellent\nway to do transition animations: whenever the screen changes you get full\ncontrol over the root ViewGroup in the Activity, allowing you to do anything\nyou want.<\/p>\n<p>In the <a href=\"https://nhaarman.github.io/Acorn/wiki\">Wiki<\/a> section you can find information on several topics\nwhen working with Acorn.<\/p>\n<p><em>Note: this documentation website is work in progress, and some sections may be\nmissing or incomplete.<\/em><\/p>\n"
+    },
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "https://nhaarman.github.io/Acorn",
+        "fileName": "404",
+        "extension": "html",
+        "usePrettyUrl": false,
+        "link": "https://nhaarman.github.io/Acorn/404.html"
+      },
+      "description": "",
+      "title": "Acorn",
+      "content": ""
+    }
+  ]
+}
